@@ -5,7 +5,6 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-
 // Sets default values
 ASCharacter::ASCharacter()
 {
