@@ -38,6 +38,8 @@ public:
 	void MoveRight(float Value);
 	void BeginCrouch();
 	void EndCrouch();
+
+	virtual FVector GetPawnViewLocation() const override;
 	
 	
 };

@@ -71,5 +71,17 @@ void ASCharacter::EndCrouch()
 	UnCrouch();
 }
 
+FVector ASCharacter::GetPawnViewLocation() const
+{
+	// We override the engine function
+	if (CameraComp)
+	{
+		return CameraComp->GetComponentLocation();
+	}
+	else
+	{
+		return Super::GetPawnViewLocation();
+	}
+}
 
 
