@@ -26,6 +26,7 @@ ASWeapon::ASWeapon()
 	RootComponent = MeshComp;
 	MuzzleSocketName = "MuzzleSocket";
 	TracerTargetName = "Target";
+	BaseDamage = 20.0f;
 
 }
 
@@ -59,8 +60,16 @@ void ASWeapon::Fire()
 			// Blocking hit! Process Damage
 			AActor* HitActor = Hit.GetActor();
 			// Pass all our data
-			UGameplayStatics::ApplyPointDamage(HitActor, 1.0f, ShotDirection, Hit, MyOwner->GetInstigatorController(), this, DamageType);
+			
 			EPhysicalSurface SurfaceType = UPhysicalMaterial::DetermineSurfaceType(Hit.PhysMaterial.Get());
+			float ActualDamage = 10;
+			if (SurfaceType == SURFACE_FLESHVUNERABLE)
+			{
+				ActualDamage = BaseDamage * 4.0f;
+			}
+
+			UGameplayStatics::ApplyPointDamage(HitActor, ActualDamage, ShotDirection, Hit, MyOwner->GetInstigatorController(), this, DamageType);
+
 			UParticleSystem* SelectedEffect = nullptr;
 
 			switch (SurfaceType)
@@ -113,10 +122,13 @@ void ASWeapon::PlayFireEffects(const FVector& TraceEnd)
 		APlayerController* PC = Cast<APlayerController>(MyOwner->GetController());
 		if (PC)
 		{
+			SIMPLELOG("Playing CameraShake");
 			PC->ClientPlayCameraShake(FireCamShake);
 			
 		}
 	}
+
+	
 
 
 }

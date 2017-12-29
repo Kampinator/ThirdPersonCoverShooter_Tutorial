@@ -9,3 +9,4 @@
 
 #define COLLISION_WEAPON ECC_GameTraceChannel1
 
+#define SIMPLELOG(a) UE_LOG(LogTemp, Warning, TEXT(a));

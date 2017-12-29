@@ -47,6 +47,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly,  Category = "Weapon")
 	TSubclassOf<UCameraShake> FireCamShake;
+	
+	UPROPERTY(EditDefaultsOnly)
+	float BaseDamage;
 
 	
 
