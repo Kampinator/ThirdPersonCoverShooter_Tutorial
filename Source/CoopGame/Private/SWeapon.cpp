@@ -9,6 +9,8 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "CoopGame.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
+#include "TimerManager.h"
+#include "Math/UnrealMathUtility.h"
 
 
 static int32 DebugWeaponDrawing = 0;
@@ -27,9 +29,15 @@ ASWeapon::ASWeapon()
 	MuzzleSocketName = "MuzzleSocket";
 	TracerTargetName = "Target";
 	BaseDamage = 20.0f;
+	RateOfFire = 600;
 
 }
 
+void ASWeapon::BeginPlay()
+{
+	Super::BeginPlay();
+	TimeBetweenShots = 60 / RateOfFire;
+}
 
 
 void ASWeapon::Fire()
@@ -99,6 +107,7 @@ void ASWeapon::Fire()
 				DrawDebugLine(GetWorld(), EyeLocation, TraceEnd, FColor::White, false, 1.0f, 0, 1.0f);
 			}		
 			PlayFireEffects(TracerEndPoint);
+			LastFiredTime = GetWorld()->TimeSeconds;
 		}
 	}
 }
@@ -127,8 +136,18 @@ void ASWeapon::PlayFireEffects(const FVector& TraceEnd)
 			
 		}
 	}
+}
 
+void ASWeapon::StartFire()
+{
+	float FirstDelay = FMath::Max(LastFiredTime * TimeBetweenShots - GetWorld()->TimeSeconds, 0.0f);
+	GetWorldTimerManager().SetTimer(TimerHandle_TimeBetweenShots, this, &ASWeapon::Fire, TimeBetweenShots, true, 0.0f);
+}
+
+void ASWeapon::StopFire()
+{
+	GetWorldTimerManager().ClearTimer(TimerHandle_TimeBetweenShots);
+	//
+}
 	
 
-
-}

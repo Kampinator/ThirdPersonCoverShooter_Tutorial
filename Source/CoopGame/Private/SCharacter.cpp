@@ -68,6 +68,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("Zoom", IE_Pressed, this, &ASCharacter::BeginZoom);
 	PlayerInputComponent->BindAction("Zoom", IE_Released, this, &ASCharacter::EndZoom);
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ASCharacter::StartFire);
+	PlayerInputComponent->BindAction("Fire", IE_Released, this, &ASCharacter::StopFire);
 }
 
 void ASCharacter::MoveForward(float Value)
@@ -115,5 +116,10 @@ void ASCharacter::EndZoom()
 
 void ASCharacter::StartFire()
 {
-	CurrentWeapon->Fire();
+	CurrentWeapon->StartFire();
+}
+
+void ASCharacter::StopFire()
+{
+	CurrentWeapon->StopFire();
 }
