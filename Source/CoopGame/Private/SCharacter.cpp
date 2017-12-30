@@ -7,6 +7,7 @@
 #include "SWeapon.h"
 #include "Components/CapsuleComponent.h"
 #include "CoopGame.h"
+#include "SHealthComponent.h"
 
 // Sets default values
 ASCharacter::ASCharacter()
@@ -17,6 +18,7 @@ ASCharacter::ASCharacter()
 	SpringArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComp"));
 	SpringArmComp->SetupAttachment(RootComponent);
 	CameraComp->SetupAttachment(SpringArmComp);
+	HealthComp = CreateDefaultSubobject<USHealthComponent>(TEXT("HealthComp"));
 
 	GetMovementComponent()->GetNavAgentPropertiesRef().bCanCrouch = true;
 	ZoomedFOV = 65;
@@ -41,7 +43,21 @@ void ASCharacter::BeginPlay()
 		CurrentWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "WeaponSocket");
 	}
 	
+	HealthComp->OnHealthChanged.AddDynamic(this, &ASCharacter::OnHealthChanged);
+}
+
+void ASCharacter::OnHealthChanged(USHealthComponent* HealthComp, float Health, float HealthDelta, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser)
+{
 	
+	if (Health <= 0.0f && !bDied)
+	{
+		//Die
+		bDied = true;
+		GetMovementComponent()->StopMovementImmediately();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		DetachFromControllerPendingDestroy();
+		SetLifeSpan(10.0f);
+	}
 }
 
 // Called every frame
@@ -119,7 +135,10 @@ void ASCharacter::EndZoom()
 
 void ASCharacter::StartFire()
 {
-	CurrentWeapon->StartFire();
+	if(CurrentWeapon)
+		CurrentWeapon->StartFire();
+	else
+		UE_LOG(LogTemp, Warning, TEXT("No CurrentWeapon set in Character BP"))
 }
 
 void ASCharacter::StopFire()
