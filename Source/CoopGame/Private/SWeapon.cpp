@@ -131,7 +131,7 @@ void ASWeapon::PlayFireEffects(const FVector& TraceEnd)
 		APlayerController* PC = Cast<APlayerController>(MyOwner->GetController());
 		if (PC)
 		{
-			SIMPLELOG("Playing CameraShake");
+			//SIMPLELOG("Playing CameraShake");
 			PC->ClientPlayCameraShake(FireCamShake);
 			
 		}

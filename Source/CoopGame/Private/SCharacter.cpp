@@ -5,6 +5,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "SWeapon.h"
+#include "Components/CapsuleComponent.h"
+#include "CoopGame.h"
 
 // Sets default values
 ASCharacter::ASCharacter()
@@ -27,6 +29,7 @@ ASCharacter::ASCharacter()
 void ASCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_WEAPON, ECR_Ignore);
 	DefaultFOV = CameraComp->FieldOfView;
 	// Spawns Default Weapon
 	FActorSpawnParameters SpawnParams;
