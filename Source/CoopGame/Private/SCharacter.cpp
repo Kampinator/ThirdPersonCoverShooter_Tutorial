@@ -30,6 +30,7 @@ void ASCharacter::GetLifetimeReplicatedProps(TArray < FLifetimeProperty > & OutL
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(ASCharacter, CurrentWeapon);
+	DOREPLIFETIME(ASCharacter, bDied);
 	// Update only to owner.
 	//DOREPLIFETIME_CONDITION(AFPSCharacter, bIsCarryingObjective, COND_OwnerOnly);
 }

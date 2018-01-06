@@ -54,7 +54,7 @@ protected:
 	TSubclassOf<ASWeapon> StarterWeaponClass;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	USHealthComponent* HealthComp;
-	UPROPERTY(BlueprintReadOnly, Category = "Player")
+	UPROPERTY(Replicated, BlueprintReadOnly, Category = "Player")
 	bool bDied;
 
 

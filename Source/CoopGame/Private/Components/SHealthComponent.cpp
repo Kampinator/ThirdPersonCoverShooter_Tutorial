@@ -3,7 +3,7 @@
 #include "SHealthComponent.h"
 #include "GameFramework/Actor.h"
 #include "Math/UnrealMathUtility.h"
-
+#include "Net/UnrealNetwork.h"
 
 // Sets default values for this component's properties
 USHealthComponent::USHealthComponent()
@@ -12,19 +12,29 @@ USHealthComponent::USHealthComponent()
 	// off to improve performance if you don't need them.
 
 	DefaultHealth = 100;
+	SetIsReplicated(true);
 	// ...
 }
 
+void USHealthComponent::GetLifetimeReplicatedProps(TArray < FLifetimeProperty > & OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(USHealthComponent, Health);
+}
 
 // Called when the game starts
 void USHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	AActor* MyOwner = GetOwner();
-	if (MyOwner)
+	if (GetOwnerRole() == ROLE_Authority)
 	{
-		MyOwner->OnTakeAnyDamage.AddDynamic(this, &USHealthComponent::HandleTakeAnyDamage);
+		AActor* MyOwner = GetOwner();
+		if (MyOwner)
+		{
+			MyOwner->OnTakeAnyDamage.AddDynamic(this, &USHealthComponent::HandleTakeAnyDamage);
+		}
 	}
+
 	Health = DefaultHealth;
 
 	// ...
