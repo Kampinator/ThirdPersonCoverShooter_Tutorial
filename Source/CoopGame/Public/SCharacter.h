@@ -42,6 +42,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Player", meta = (ClampMin = 0.0, ClampMax = 100))
 	float ZoomInterpSpeed;
 
+	UPROPERTY(Replicated)
 	ASWeapon* CurrentWeapon;
 	void StartFire();
 	void StopFire();
@@ -51,6 +52,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player")
 	TSubclassOf<ASWeapon> StarterWeaponClass;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	USHealthComponent* HealthComp;
 	UPROPERTY(BlueprintReadOnly, Category = "Player")
 	bool bDied;
