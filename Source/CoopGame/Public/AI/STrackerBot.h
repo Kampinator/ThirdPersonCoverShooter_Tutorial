@@ -74,7 +74,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;	
-	virtual void OnConstruction(const FTransform& Transform);
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
 	

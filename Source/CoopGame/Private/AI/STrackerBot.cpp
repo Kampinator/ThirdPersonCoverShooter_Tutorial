@@ -11,6 +11,7 @@
 #include "Components/SphereComponent.h"
 #include "SCharacter.h"
 #include "Sound/SoundCue.h"
+#include "TimerManager.h"
 
 
 
@@ -65,7 +66,7 @@ FVector ASTrackerBot::GetNextPathPoint()
 	if (PlayerPawn)
 	{
 		UNavigationPath* NavPath = UNavigationSystem::FindPathToActorSynchronously(this, GetActorLocation(), PlayerPawn);
-		if (NavPath->PathPoints.Num() > 1)
+		if (NavPath && NavPath->PathPoints.Num() > 1)
 		{
 			// Return wanted location
 			return NavPath->PathPoints[1];
@@ -78,7 +79,7 @@ FVector ASTrackerBot::GetNextPathPoint()
 void ASTrackerBot::HandleTakeAnyDamage(USHealthComponent* OwningHealthCompHealthComp, float Health, float HealthDelta, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser)
 {
 	//Exploded on hitpoints = 0;
-
+	
 	// TODO Pulse the material on hit
 	UE_LOG(LogTemp, Warning, TEXT("Health: %s of %s"), *FString::SanitizeFloat(Health), *GetName());
 	//Mat MeshComp->CreateAndSetMaterialInstanceDynamicFromMaterial(0, MeshComp->GetMaterial);
@@ -148,11 +149,7 @@ void ASTrackerBot::Tick(float DeltaTime)
 
 }
 
-void ASTrackerBot::OnConstruction(const FTransform & Transform)
-{
-	Super::OnConstruction(Transform);
-	bUseVelocityChange = true;
-}
+
 
 void ASTrackerBot::NotifyActorBeginOverlap(AActor * OtherActor)
 {

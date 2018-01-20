@@ -69,6 +69,11 @@ void USHealthComponent::HandleTakeAnyDamage(AActor* DamagedActor, float Damage, 
 
 }
 
+float USHealthComponent::GetHealth() const
+{
+	return Health;
+}
+
 
 
 
