@@ -56,6 +56,8 @@ void ASCharacter::BeginPlay()
 			CurrentWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "WeaponSocket");
 		}
 	}
+
+	
 	
 	
 }
