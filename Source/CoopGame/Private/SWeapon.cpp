@@ -32,6 +32,7 @@ ASWeapon::ASWeapon()
 	BaseDamage = 20.0f;
 	RateOfFire = 600;
 	SetReplicates(true);
+	BulletSpread = 1;
 
 }
 
@@ -79,6 +80,10 @@ void ASWeapon::Fire()
 		FVector EyeLocation;
 		FRotator EyeRotation;
 		FVector ShotDirection = EyeRotation.Vector();
+
+
+		float HalfRad = FMath::DegreesToRadians(BulletSpread);
+		ShotDirection = FMath::VRandCone(ShotDirection, HalfRad, HalfRad);
 
 
 		// This is used with the line tracing

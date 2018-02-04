@@ -44,8 +44,8 @@ protected:
 
 	UPROPERTY(Replicated)
 	ASWeapon* CurrentWeapon;
-	void StartFire();
-	void StopFire();
+
+	
 
 	UFUNCTION()
 	void OnHealthChanged(USHealthComponent* HealthComp, float Health, float HealthDelta, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
@@ -68,8 +68,13 @@ public:
 	void MoveRight(float Value);
 	void BeginCrouch();
 	void EndCrouch();
-
 	virtual FVector GetPawnViewLocation() const override;
+
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	void StartFire();
+
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	void StopFire();
 	
 	
 };
